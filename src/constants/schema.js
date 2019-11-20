@@ -63,7 +63,15 @@ const test_values = {
   notes: "Test Notes",
   fema_number: "000000000",
   fire_name: "tubbs",
-  checked: true
+  checked: true,
+  notification_text: "Sample notification text",
+  notification_date: "11/19/19",
+  note_text: "Sample note text",
+  note_date: "11/19/19",
+  status: "Approved",
+  update_text: "Sample update text",
+  update_author: "First Last",
+  update_date: "11/19/19"
 }
 
 const SCHEMA = {
@@ -705,7 +713,163 @@ const SCHEMA = {
     type: "string",
     test_value: "signature",
     validation: (value) => { return false }
+  },
+  united_way_case_manager_first_name: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 4,
+    placeholder: "First Name",
+    test_value: test_values.first_name,
+    validation: (value) => { return false }
+  },
+  united_way_case_manager_middle_name: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 4,
+    placeholder: "Middle Name",
+    test_value: test_values.middle_name,
+    validation: (value) => { return false }
+  }, 
+  united_way_case_manager_last_name: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 4,
+    placeholder: "Last Name",
+    test_value: test_values.last_name,
+    validation: (value) => { return false }
+  },
+  cash_grant_id: {
+    input: "none"    
+  },
+  cash_grant_notification_id: {
+    input: "none"
+  },
+  cash_grant_notification_text: {
+    input: "textarea",
+    type: "string",
+    placeholder: "Enter notification text here",
+    test_value: test_values.notification_text
+  },
+  cash_grant_notification_date: {
+    input: "none"
+  },
+  cash_grant_amount: {
+    input: "text",
+    type: "number",
+    placeholder: 0,
+    test_value: 0,
+    validation: (value) => { return false }
+  },
+  cash_grant_batch: {
+    input: "text",
+    type: "number",
+    placeholder: 0,
+    test_value: 0,
+    validation: (value) => { return false }
+  },
+  cash_grant_card_check_number: {
+    type: "string",
+    placeholder: "Card/check number",
+    input: "text",
+    columnSize: 4,
+    test_value: "00000",
+    validation: (value) => { return false }
+  },
+  cash_grant_send_date: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 6,
+    placeholder: "MM/DD/YYYY",
+    test_value: test_values.dob,
+    validation: (value) => { return false }
+  },
+  cash_grant_receive_date: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 6,
+    placeholder: "MM/DD/YYYY",
+    test_value: test_values.dob,
+    validation: (value) => { return false }
+  },
+  cash_grant_type_is_check: {
+    input: "radio",
+    name: "cash_grant_type",
+    label: "Check",
+    type: "boolean",
+    test_value: test_values.checked,
+    validation: (value) => { return false }
+  },
+  cash_grant_type_is_card: {
+    input: "radio",
+    name: "cash_grant_type",
+    label: "Yes",
+    type: "boolean",
+    test_value: test_values.checked,
+    validation: (value) => { return false }
+  },
+  cash_grant_received_yes: {
+    input: "radio",
+    name: "cash_grant_received",
+    label: "Yes",
+    type: "boolean",
+    test_value: test_values.checked,
+    validation: (value) => { return false }
+  },
+  cash_grant_received_no: {
+    input: "radio",
+    name: "cash_grant_received",
+    label: "No",
+    type: "boolean",
+    test_value: test_values.checked,
+    validation: (value) => { return false }
+  },
+  dashboard_note_id: {
+    input: "none"
+  },
+  dashboard_note_text: {
+    input: "textarea",
+    type: "string",
+    placeholder: "Enter note text here",
+    test_value: test_values.notification_text
+  },
+  dashboard_note_date: {
+    input: "none"
+  },
+  application_status: {
+    type: "string",
+    placeholder: "Pending",
+    input: "text",
+    columnSize: 4,
+    test_value: "Pending",
+    validation: (value) => { return false }
+  },
+  application_update_id: {
+    input: "none"
+  },
+  application_update_text: {
+    input: "textarea",
+    type: "string",
+    placeholder: "Enter note text here",
+    test_value: test_values.notification_text
+  },
+  application_update_author: {
+    type: "string",
+    placeholder: "Updated by",
+    input: "text",
+    columnSize: 4,
+    test_value: "First Last",
+    validation: (value) => { return false }
+  },
+  application_update_date: {
+    input: "none"
   }
+
+
 };
 
 export default SCHEMA;
