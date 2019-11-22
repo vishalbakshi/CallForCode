@@ -107,18 +107,51 @@ import React, { useState } from "react";
    */
 
    /**
-    * Generate inputs based on APPLICATION_SCHEMA
+    * Generate inputs based on SCHEMA
     * Generate sections based on DASHBOARD_SCHEMA
     * 
     */
-   import APPLICATION_SCHEMA from "../../constants/schema";
-   import FIELDS from "../../constants/component_fields";
-   import DASHBOARD_SCHEMA from "../../constants/dashboard_fields";
-   
-   /*
-   const getInputElements = category => {
-    return FIELDS[category].map((field, idx) => {
-      switch (APPLICATION_SCHEMA[field].input) {
+   import SCHEMA from "../../constants/schema";
+   import APPLICATION_FIELDS from "../../constants/component_fields";
+   import DASHBOARD_FIELDS from "../../constants/dashboard_fields";
+   const SectionElements = () => {
+   const initialState = {"validation": {} };
+
+  // Set initial state including validation object
+  Object.keys(SCHEMA).forEach(key => {
+    if (SCHEMA.hasOwnProperty(key)) {
+      initialState[key] = SCHEMA[key].initial_value;
+      initialState["validation"][key] = false;
+    }
+  }); 
+  
+
+  // Form data saved to localStorage upon setState
+  // retrieve it from there on re-renders
+  const [state, setState] = useState(
+    JSON.parse(localStorage.getItem("dashboardData")) || initialState
+  );
+
+  /**
+   * update state and localStorage
+   * @param {event} e
+   */
+  const handleChange = e => {
+    let name = e.target.name;
+    let value = e.target.type === "checkbox" ? e.target.checked : e.target.value
+    let newValidation = state["validation"]
+    // Update the validation for the given input using the validation function in schema.js
+    // 
+    newValidation[name] = SCHEMA[e.target.name].validation(value) ? '' : 'has-error';
+    let newState = { ...state, [name]: value, ["validation"]: newValidation };
+    localStorage.setItem("dashboardData", JSON.stringify(newState));
+    setState(newState);
+
+  };
+  
+  const getInputElements = category => {
+    return APPLICATION_FIELDS[category].map((field, idx) => {
+      switch (SCHEMA[field].input) {
         case "file":
           return (
             <input
@@ -133,14 +166,14 @@ import React, { useState } from "react";
           );
         case "select":
           return (
-            <div className={ 'pt-4' + ' ' + ('col-md-' + APPLICATION_SCHEMA[field].columnSize) }>
+            <div className={ 'pt-4' + ' ' + ('col-md-' + SCHEMA[field].columnSize) }>
               <select
                 key={idx}
                 className={category, 'form-control'}
                 name={field}
                 onChange={handleChange}
               >
-                {APPLICATION_SCHEMA[field].options}
+                {SCHEMA[field].options}
               </select>
             </div>
           );
@@ -150,14 +183,14 @@ import React, { useState } from "react";
               <input
                 key={idx}
                 className={category + ' form-check-input'}
-                type={APPLICATION_SCHEMA[field].input}
-                name={APPLICATION_SCHEMA[field].name}
-                placeholder={APPLICATION_SCHEMA[field].placeholder}
+                type={SCHEMA[field].input}
+                name={SCHEMA[field].name}
+                placeholder={SCHEMA[field].placeholder}
                 onChange={handleChange}
                 checked
               />
-              <label htmlFor={APPLICATION_SCHEMA[field].name} class="form-check-label pl-3">
-              {APPLICATION_SCHEMA[field].label}
+              <label htmlFor={SCHEMA[field].name} class="form-check-label pl-3">
+              {SCHEMA[field].label}
               </label>
             </div>
             ) : (
@@ -165,13 +198,13 @@ import React, { useState } from "react";
               <input
                 key={idx}
                 className={category + ' form-check-input'}
-                type={APPLICATION_SCHEMA[field].input}
-                name={APPLICATION_SCHEMA[field].name}
-                placeholder={APPLICATION_SCHEMA[field].placeholder}
+                type={SCHEMA[field].input}
+                name={SCHEMA[field].name}
+                placeholder={SCHEMA[field].placeholder}
                 onChange={handleChange}
               />
-              <label htmlFor={APPLICATION_SCHEMA[field].name} class="form-check-label pl-3">
-                {APPLICATION_SCHEMA[field].label}
+              <label htmlFor={SCHEMA[field].name} class="form-check-label pl-3">
+                {SCHEMA[field].label}
               </label>
             </div>
             );
@@ -184,14 +217,14 @@ import React, { useState } from "react";
                 <input
                   key={idx}
                   className={category + ' ' + 'form-check-input'}
-                  type={APPLICATION_SCHEMA[field].input}
+                  type={SCHEMA[field].input}
                   name={field}
-                  placeholder={APPLICATION_SCHEMA[field].placeholder}
+                  placeholder={SCHEMA[field].placeholder}
                   onChange={handleChange}
                   checked
                 />
                 <label htmlFor={field} class="form-check-label pl-3">
-                  {APPLICATION_SCHEMA[field].label}
+                  {SCHEMA[field].label}
                 </label>
               </div>
             </div>
@@ -201,13 +234,13 @@ import React, { useState } from "react";
                 <input
                   key={idx}
                   className={category + ' ' + 'form-check-input'}
-                  type={APPLICATION_SCHEMA[field].input}
+                  type={SCHEMA[field].input}
                   name={field}
-                  placeholder={APPLICATION_SCHEMA[field].placeholder}
+                  placeholder={SCHEMA[field].placeholder}
                   onChange={handleChange}
                 />
                 <label htmlFor={field} class="form-check-label pl-3">
-                  {APPLICATION_SCHEMA[field].label}
+                  {SCHEMA[field].label}
                 </label>
               </div>
             </div>
@@ -222,7 +255,8 @@ import React, { useState } from "react";
                 className={"form-control w-100"}
                 rows="8"
                 name={field}
-                placeholder={APPLICATION_SCHEMA[field].placeholder}
+                value={state[field]}
+                placeholder={SCHEMA[field].placeholder}
                 onChange={handleChange}
               />
             </div>
@@ -232,14 +266,14 @@ import React, { useState } from "react";
         case "text":
         default:
           return (
-            <div className={ 'pt-3' + ' ' + ('col-md-' + APPLICATION_SCHEMA[field].columnSize) }>
+            <div className={ 'pt-3' + ' ' + ('col-md-' + SCHEMA[field].columnSize) }>
               <input
                 key={idx}
                 className={category, 'form-control'}
                 type="text"
                 name={field}
                 value={state[field]}
-                placeholder={APPLICATION_SCHEMA[field].placeholder}
+                placeholder={SCHEMA[field].placeholder}
                 onChange={handleChange}
               />  
             </div>
@@ -247,11 +281,14 @@ import React, { useState } from "react";
       }
     });
   };
-  */
-  const SectionElements = () => {
-    let section_elements = Object.keys(DASHBOARD_SCHEMA).map(key => {
-      return (<div><section key={key}>
-        <h2>{key}</h2>
+  
+  
+    let section_elements = Object.keys(DASHBOARD_FIELDS).map(section_name=> {
+      console.log(section_name, DASHBOARD_FIELDS[section_name])
+      return (<div key={section_name}><section>
+        <h2>{section_name}</h2>
+        
+        {/* {DASHBOARD_FIELDS[section_name].map(field => SCHEMA[field])} */}
       </section></div>)
     })
     return section_elements;

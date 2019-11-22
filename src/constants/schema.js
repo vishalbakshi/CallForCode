@@ -642,10 +642,7 @@ const SCHEMA = {
     validation: (value) => { return false }
   },
   case_manager_count: {
-    input: null,
-    type: "number",
-    initial_value: 1,
-    validation: (value) => { return false }
+    input: "none"
   },
   case_manager_0_first_name: {
     input: "text",
@@ -848,6 +845,9 @@ const SCHEMA = {
     test_value: "Pending",
     validation: (value) => { return false }
   },
+  application_updates_count: {
+    input: "none"
+  },
   application_update_id: {
     input: "none"
   },
@@ -868,8 +868,6 @@ const SCHEMA = {
   application_update_date: {
     input: "none"
   }
-
-
 };
 
 export default SCHEMA;

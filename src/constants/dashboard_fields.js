@@ -1,5 +1,5 @@
-import agencies from "./agencies"
-
+import agencies_objects from "./agencies"
+var agencies = agencies_objects.map(agency => agency.name).push("case_manager_count")
 /**
  * Dashboard Schema
  * 
@@ -38,49 +38,45 @@ import agencies from "./agencies"
  const DASHBOARD_FIELDS = {
      "header": [
          "application_id",
-         "batch",
+         "cash_grant_batch",
          "application_submitted_on",
          "damaged_address1",
          "damaged_address2",
          "damaged_city",
          "damaged_state"
      ],
-     "general_info": {
-         "general_information": [
-             "survivor_phone",
-             "survivor_email",
-             "survivor_address1",
-             "survivor_address2",
-             "survivor_city",
-             "survivor_state",
-             "fema_number",
-             "fire_number"
-            ],
-         "members_of_household": [
-             "members_of_household_count"
-            ],
-         "additional_contact": [
-             "additional_contact_first_name",
-             "additional_contact_middle_name",
-             "additional_contact_last_name",
-             "additional_contact_email",
-             "additional_contact_phone",
-             "additional_contact_address1",
-             "additional_contact_address2",
-             "additional_contact_city",
-             "additional_contact_state",
-             "additional_contact_zip"
-            ],
-         "united_way_case_manager" : [
-             "united_way_case_manager_first_name",
-             "united_way_case_manager_middle_name",
-             "united_way_case_manager_last_name"
-         ]
-    },
-     "agencies": [
-         agencies,
-         "case_manager_count",        
+     "general_information": [
+         "survivor_phone",
+         "survivor_email",
+         "survivor_address1",
+         "survivor_address2",
+         "survivor_city",
+         "survivor_state",
+         "fema_number",
+         "fire_number"        
         ],
+    "members_of_household": [
+        "members_of_household_count"
+    ],
+     "additional_contact": [
+        "additional_contact_first_name",
+        "additional_contact_middle_name",
+        "additional_contact_last_name",
+        "additional_contact_email",
+        "additional_contact_phone",
+        "additional_contact_address1",
+        "additional_contact_address2",
+        "additional_contact_city",
+        "additional_contact_state",
+        "additional_contact_zip"
+    ],
+    "united_way_case_manager" : [
+        "united_way_case_manager_first_name",
+        "united_way_case_manager_middle_name",
+        "united_way_case_manager_last_name"
+    ]
+    ,
+     "agencies": agencies,
      "document_approval": [
          "photo_id",
          "address_proof",
@@ -96,16 +92,7 @@ import agencies from "./agencies"
          "damaged_zip",
          "notes"
      ],
-     "cash_grant": [
-         "cash_grants",
-         "notifications"
-        ],
-     "notes": [
-         "dashboard_notes",
-         "dashboard_notes_notifications"
-     ],
-     "application_status": "",
-     "last_updates": [{name: "", update: "", date: ""}]
+     "application_status": ["application_status"]
  }
 
  export default DASHBOARD_FIELDS;
