@@ -1,5 +1,6 @@
 import agencies_objects from "./agencies"
-var agencies = agencies_objects.map(agency => agency.name).push("case_manager_count")
+let agencies = agencies_objects.map(agency => agency.name)
+
 /**
  * Dashboard Schema
  * 
@@ -37,9 +38,6 @@ var agencies = agencies_objects.map(agency => agency.name).push("case_manager_co
  */
  const DASHBOARD_FIELDS = {
      "header": [
-         "application_id",
-         "cash_grant_batch",
-         "application_submitted_on",
          "damaged_address1",
          "damaged_address2",
          "damaged_city",
@@ -53,7 +51,7 @@ var agencies = agencies_objects.map(agency => agency.name).push("case_manager_co
          "survivor_city",
          "survivor_state",
          "fema_number",
-         "fire_number"        
+         "camp_number"        
         ],
     "members_of_household": [
         "members_of_household_count"
