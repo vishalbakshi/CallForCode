@@ -116,7 +116,8 @@ import SCHEMA from "../../constants/schema";
 import APPLICATION_FIELDS from "../../constants/component_fields";
 import DASHBOARD_FIELDS from "../../constants/dashboard_fields";
 const SectionElements = () => {
-  
+  // Currently this will take the first application but should 
+  // initialize state with selected application ID
   const initialState = {"validation": {}, ...DATA["survivor_applications"][0] };
 
   // Set initial state including validation object
