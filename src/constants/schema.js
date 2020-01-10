@@ -63,7 +63,15 @@ const test_values = {
   notes: "Test Notes",
   fema_number: "000000000",
   fire_name: "tubbs",
-  checked: true
+  checked: true,
+  notification_text: "Sample notification text",
+  notification_date: "11/19/19",
+  note_text: "Sample note text",
+  note_date: "11/19/19",
+  status: "Approved",
+  update_text: "Sample update text",
+  update_author: "First Last",
+  update_date: "11/19/19"
 }
 
 const SCHEMA = {
@@ -74,7 +82,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: "First Name",
     test_value: test_values.first_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   survivor_middle_name: {
     input: "text",
@@ -83,7 +91,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: "Middle Name",
     test_value: test_values.middle_name,
-    validation: () => {}
+    validation: (value) => { return false }
   }, 
   survivor_last_name: {
     input: "text",
@@ -92,7 +100,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: "Last Name",
     test_value: test_values.last_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   survivor_phone: {
     input: "text",
@@ -101,7 +109,7 @@ const SCHEMA = {
     columnSize: 6,
     placeholder: "Phone Number",
     test_value: test_values.phone,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   survivor_email: {
     input: "text",
@@ -110,7 +118,7 @@ const SCHEMA = {
     columnSize: 6,
     placeholder: "Email Address",
     test_value: test_values.email,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   survivor_address1: {
     input: "text",
@@ -119,7 +127,7 @@ const SCHEMA = {
     columnSize: 8,
     placeholder: "Current Address",
     test_value: test_values.address1,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   survivor_address2: {
     input: "text",
@@ -128,7 +136,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: "Apt.",
     test_value: test_values.address2,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   survivor_city: {
     input: "text",
@@ -137,7 +145,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: "City",
     test_value: test_values.city,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   survivor_state: {
     input: "select",
@@ -147,7 +155,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: null,
     test_value: test_values.state,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   survivor_zip: {
     input: "text",
@@ -156,13 +164,13 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: 'Zip Code',
     test_value: test_values.zip,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   members_of_household_count: {
     input: null,
     type: "number",
     initial_value: 1,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   household_member_0_first_name: {
     input: "text",
@@ -171,7 +179,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: "First Name",
     test_value: test_values.first_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   household_member_0_middle_name: {
     input: "text",
@@ -180,7 +188,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: "Middle Name",
     test_value: test_values.middle_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   household_member_0_last_name: {
     input: "text",
@@ -189,7 +197,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: "Last Name",
     test_value: test_values.last_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   household_member_0_dob: {
     input: "text",
@@ -198,7 +206,7 @@ const SCHEMA = {
     columnSize: 6,
     placeholder: "MM/DD/YYYY",
     test_value: test_values.dob,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   household_member_0_relation: {
     input: "select",
@@ -207,7 +215,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 6,
     test_value: test_values.relation,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_first_name: {
     input: "text",
@@ -216,7 +224,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.first_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_middle_name: {
     input: "text",
@@ -225,7 +233,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.middle_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_last_name: {
     input: "text",
@@ -234,7 +242,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.last_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_phone: {
     input: "text",
@@ -243,7 +251,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 6,
     test_value: test_values.phone,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_email: {
     input: "text",
@@ -252,7 +260,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 6,
     test_value: test_values.email,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_address1: {
     input: "text",
@@ -261,7 +269,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 8,
     test_value: test_values.address1,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_address2: {
     input: "text",
@@ -270,7 +278,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.address2,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_city: {
     input: "text",
@@ -279,7 +287,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.city,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_state: {
     input: "select",
@@ -288,7 +296,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.state,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   additional_contact_zip: {
     input: "text",
@@ -297,7 +305,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.zip,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   fema_number: {
     type: "string",
@@ -306,7 +314,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.fema_number,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   camp_number: {
     type: "string",
@@ -315,7 +323,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.camp_number,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   fire_name: {
     type: "string",
@@ -325,7 +333,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.fire_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   damaged_address1: {
     type: "string",
@@ -334,7 +342,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 8,
     test_value: test_values.address1,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   damaged_address2: {
     type: "string",
@@ -343,7 +351,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.address2,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   damaged_city: {
     type: "string",
@@ -352,7 +360,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.city,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   damaged_state: {
     type: "string",
@@ -361,7 +369,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.state,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   damaged_zip: {
     type: "string",
@@ -370,7 +378,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.zip,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   landlord_first_name: {
     input: "text",
@@ -379,7 +387,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.first_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   landlord_middle_name: {
     input: "text",
@@ -388,7 +396,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.middle_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   landlord_last_name: {
     input: "text",
@@ -397,7 +405,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 4,
     test_value: test_values.last_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   landlord_phone: {
     type: "string",
@@ -406,7 +414,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 6,
     test_value: test_values.phone,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   landlord_email: {
     type: "string",
@@ -415,7 +423,7 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 6,
     test_value: test_values.email,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   notes: {
     type: "string",
@@ -423,37 +431,37 @@ const SCHEMA = {
     input: "textarea",
     initial_value: "",
     test_value: test_values.notes,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   photo_id: {
     type: "Array",
     input: "file",
     initial_value: [],
-    validation: () => {}
+    validation: (value) => { return false }
   },
   address_proof: {
     type: "Array",
     input: "file",
     initial_value: [],
-    validation: () => {}
+    validation: (value) => { return false }
   },
   house_damage: {
     type: "Array",
     input: "file",
     initial_value: [],
-    validation: () => {}
+    validation: (value) => { return false }
   },
   receipts: {
     type: "Array",
     input: "file",
     initial_value: [],
-    validation: () => {}
+    validation: (value) => { return false }
   },
   can_content_release: {
     type: "Array",
     input: "file",
     initial_value: [],
-    validation: () => {}
+    validation: (value) => { return false }
   },
   alliance_for_workplace_development: {
     input: "checkbox",
@@ -462,7 +470,7 @@ const SCHEMA = {
     name: "Alliance for Workplace Development",
     label: "Alliance for Workplace Development",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   butte_211: {
     input: "checkbox",
@@ -471,7 +479,7 @@ const SCHEMA = {
     name: "Butte 211",
     label: "Butte 211",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   caring_choices: {
     input: "checkbox",
@@ -480,7 +488,7 @@ const SCHEMA = {
     name: "Caring Choices",
     label: "Caring Choices",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   chip: {
     input: "checkbox",
@@ -489,7 +497,7 @@ const SCHEMA = {
     name: "CHIP",
     label: "CHIP",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   dess: {
     input: "checkbox",
@@ -498,7 +506,7 @@ const SCHEMA = {
     name: "DESS",
     label: "DESS",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   fema: {
     input: "checkbox",
@@ -507,7 +515,7 @@ const SCHEMA = {
     name: "FEMA",
     label: "FEMA",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   habitat_for_humanity: {
     input: "checkbox",
@@ -516,7 +524,7 @@ const SCHEMA = {
     name: "Habitat for Humanity",
     label: "Habitat for Humanity",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   jesus_center: {
     input: "checkbox",
@@ -524,7 +532,7 @@ const SCHEMA = {
     initial_value: "",
     name: "Jesus Center",
     label: "Jesus Center",
-    validation: () => {}
+    validation: (value) => { return false }
   },
   lsnc: {
     input: "checkbox",
@@ -533,7 +541,7 @@ const SCHEMA = {
     name: "LSNC",
     label: "LSNC",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   ltrg_unmet_needs: {
     input: "checkbox",
@@ -542,7 +550,7 @@ const SCHEMA = {
     name: "LTRG Unmet Needs",
     label: "LTRG Unmet Needs",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   nvcss: {
     input: "checkbox",
@@ -551,7 +559,7 @@ const SCHEMA = {
     name: "NVCSS",
     label: "NVCSS",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   policy_holders_united: {
     input: "checkbox",
@@ -560,7 +568,7 @@ const SCHEMA = {
     name: "Policy Holders United",
     label: "Policy Holders United",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   red_cross: {
     input: "checkbox",
@@ -569,7 +577,7 @@ const SCHEMA = {
     name: "Red Cross",
     label: "Red Cross",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   salvation_army: {
     input: "checkbox",
@@ -578,7 +586,7 @@ const SCHEMA = {
     name: "Salvation Army",
     label: "Salvation Army",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   st_vincent_de_paul: {
     input: "checkbox",
@@ -587,7 +595,7 @@ const SCHEMA = {
     name: "St. Vincent de Paul",
     label: "St. Vincent de Paul",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   torres_shelter: {
     input: "checkbox",
@@ -596,7 +604,7 @@ const SCHEMA = {
     name: "Torres Shelter",
     label: "Torres Shelter",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   tzu_chi: {
     input: "checkbox",
@@ -605,7 +613,7 @@ const SCHEMA = {
     name: "Tzu Chi",
     label: "Tzu Chi",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   vet_center: {
     input: "checkbox",
@@ -614,7 +622,7 @@ const SCHEMA = {
     name: "Vet Center",
     label: "Vet Center",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   youth_for_change: {
     input: "checkbox",
@@ -623,7 +631,7 @@ const SCHEMA = {
     name: "Youth for Change",
     label: "Youth for Change",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   case_manager_0_referring_agency: {
     input: "select",
@@ -631,13 +639,10 @@ const SCHEMA = {
     options: agencyOptions,
     columnSize: 12,
     test_value: "youth_for_change",
-    validation: () => {}
+    validation: (value) => { return false }
   },
   case_manager_count: {
-    input: null,
-    type: "number",
-    initial_value: 1,
-    validation: () => {}
+    input: "none"
   },
   case_manager_0_first_name: {
     input: "text",
@@ -646,7 +651,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: placeholders["first_name"],
     test_value: test_values.first_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   case_manager_0_middle_name: {
     input: "text",
@@ -655,7 +660,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: placeholders["middle_name"],
     test_value: test_values.middle_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   case_manager_0_last_name: {
     input: "text",
@@ -664,7 +669,7 @@ const SCHEMA = {
     columnSize: 4,
     placeholder: placeholders["last_name"],
     test_value: test_values.last_name,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   case_manager_0_phone: {
     input: "text",
@@ -672,13 +677,15 @@ const SCHEMA = {
     initial_value: "",
     columnSize: 6,
     placeholder: placeholders["phone"],
-    test_value: test_values.phone
+    test_value: test_values.phone,
+    validation: (value) => { return false }
   },
   case_manager_0_email: {
     initial_value: "",
     columnSize: 6,
     placeholder: placeholders["email"],
-    test_value: test_values.email
+    test_value: test_values.email,
+    validation: (value) => { return false }
   },
   sba_loan_yes: {
     input: "radio",
@@ -687,7 +694,7 @@ const SCHEMA = {
     type: "boolean",
     placeholder: "Yes",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   sba_loan_no: {
     input: "radio",
@@ -696,13 +703,170 @@ const SCHEMA = {
     type: "boolean",
     placeholder: "No",
     test_value: test_values.checked,
-    validation: () => {}
+    validation: (value) => { return false }
   },
   signature: {
     input: "text",
     type: "string",
     test_value: "signature",
-    validation: () => {}
+    validation: (value) => { return false }
+  },
+  united_way_case_manager_first_name: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 4,
+    placeholder: "First Name",
+    test_value: test_values.first_name,
+    validation: (value) => { return false }
+  },
+  united_way_case_manager_middle_name: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 4,
+    placeholder: "Middle Name",
+    test_value: test_values.middle_name,
+    validation: (value) => { return false }
+  }, 
+  united_way_case_manager_last_name: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 4,
+    placeholder: "Last Name",
+    test_value: test_values.last_name,
+    validation: (value) => { return false }
+  },
+  cash_grant_id: {
+    input: "none"    
+  },
+  cash_grant_notification_id: {
+    input: "none"
+  },
+  cash_grant_notification_text: {
+    input: "textarea",
+    type: "string",
+    placeholder: "Enter notification text here",
+    test_value: test_values.notification_text
+  },
+  cash_grant_notification_date: {
+    input: "none"
+  },
+  cash_grant_amount: {
+    input: "text",
+    type: "number",
+    placeholder: 0,
+    test_value: 0,
+    validation: (value) => { return false }
+  },
+  cash_grant_batch: {
+    input: "text",
+    type: "number",
+    placeholder: 0,
+    test_value: 0,
+    validation: (value) => { return false }
+  },
+  cash_grant_card_check_number: {
+    type: "string",
+    placeholder: "Card/check number",
+    input: "text",
+    columnSize: 4,
+    test_value: "00000",
+    validation: (value) => { return false }
+  },
+  cash_grant_send_date: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 6,
+    placeholder: "MM/DD/YYYY",
+    test_value: test_values.dob,
+    validation: (value) => { return false }
+  },
+  cash_grant_receive_date: {
+    input: "text",
+    type: "string",
+    initial_value: "",
+    columnSize: 6,
+    placeholder: "MM/DD/YYYY",
+    test_value: test_values.dob,
+    validation: (value) => { return false }
+  },
+  cash_grant_type_is_check: {
+    input: "radio",
+    name: "cash_grant_type",
+    label: "Check",
+    type: "boolean",
+    test_value: test_values.checked,
+    validation: (value) => { return false }
+  },
+  cash_grant_type_is_card: {
+    input: "radio",
+    name: "cash_grant_type",
+    label: "Yes",
+    type: "boolean",
+    test_value: test_values.checked,
+    validation: (value) => { return false }
+  },
+  cash_grant_received_yes: {
+    input: "radio",
+    name: "cash_grant_received",
+    label: "Yes",
+    type: "boolean",
+    test_value: test_values.checked,
+    validation: (value) => { return false }
+  },
+  cash_grant_received_no: {
+    input: "radio",
+    name: "cash_grant_received",
+    label: "No",
+    type: "boolean",
+    test_value: test_values.checked,
+    validation: (value) => { return false }
+  },
+  dashboard_note_id: {
+    input: "none"
+  },
+  dashboard_note_text: {
+    input: "textarea",
+    type: "string",
+    placeholder: "Enter note text here",
+    test_value: test_values.notification_text
+  },
+  dashboard_note_date: {
+    input: "none"
+  },
+  application_status: {
+    type: "string",
+    placeholder: "Pending",
+    input: "text",
+    columnSize: 4,
+    test_value: "Pending",
+    validation: (value) => { return false }
+  },
+  application_updates_count: {
+    input: "none"
+  },
+  application_update_id: {
+    input: "none"
+  },
+  application_update_text: {
+    input: "textarea",
+    type: "string",
+    placeholder: "Enter note text here",
+    test_value: test_values.notification_text
+  },
+  application_update_author: {
+    type: "string",
+    placeholder: "Updated by",
+    input: "text",
+    columnSize: 4,
+    test_value: "First Last",
+    validation: (value) => { return false }
+  },
+  application_update_date: {
+    input: "none"
   }
 };
 

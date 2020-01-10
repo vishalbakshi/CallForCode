@@ -3,17 +3,18 @@ import SCHEMA from "../../constants/schema";
 import FIELDS from "../../constants/component_fields";
 
 const WildfireSurvivorApp = () => {
-  const initialState = { "start_page": true, "preview_page": false, "confirmation_page": false };
+  const initialState = { "start_page": true, "preview_page": false, "confirmation_page": false, "validation": {} };
 
-  // Set initial state
+  // Set initial state including validation object
   Object.keys(SCHEMA).forEach(key => {
     if (SCHEMA.hasOwnProperty(key)) {
       initialState[key] = SCHEMA[key].initial_value;
+      initialState["validation"][key] = false;
     }
   });
 
   // Form data saved to localStorage upon setState
-  // Retrieve it from there on re-renders
+  // retrieve it from there on re-renders
   const [state, setState] = useState(
     JSON.parse(localStorage.getItem("formData")) || initialState
   );
@@ -25,9 +26,14 @@ const WildfireSurvivorApp = () => {
   const handleChange = e => {
     let name = e.target.name;
     let value = e.target.type === "checkbox" ? e.target.checked : e.target.value
-    let newState = { ...state, [name]: value };
+    let newValidation = state["validation"]
+    // Update the validation for the given input using the validation function in schema.js
+    // 
+    newValidation[name] = SCHEMA[e.target.name].validation(value) ? '' : 'has-error';
+    let newState = { ...state, [name]: value, ["validation"]: newValidation };
     localStorage.setItem("formData", JSON.stringify(newState));
     setState(newState);
+
   };
 
   return (
@@ -102,7 +108,7 @@ const Header = ({ state, setState }) => {
                 {state["start_page"] ? 
                   <g onClick={goToStartPage}>
                     <text x="183" y="90">Start</text>
-                    <line x1="200" y1="50" x2="600" y2="50" stroke="#111580" stroke-width="2"></line>
+                    <line x1="200" y1="50" x2="600" y2="50" stroke="#111580" strokeWidth="2"></line>
                     <circle cx="200" cy="50" r="10" fill="#F48118" /> 
                   </g>
                   : 
@@ -115,8 +121,8 @@ const Header = ({ state, setState }) => {
                 {state["preview_page"] ? 
                   <g onClick={goToPreviewPage}>
                     <text x="374" y="90">Preview</text>
-                    <line x1="200" y1="50" x2="400" y2="50" stroke="#F48118" stroke-width="2"></line>
-                    <line x1="400" y1="50" x2="600" y2="50" stroke="#111580" stroke-width="2"></line>
+                    <line x1="200" y1="50" x2="400" y2="50" stroke="#F48118" strokeWidth="2"></line>
+                    <line x1="400" y1="50" x2="600" y2="50" stroke="#111580" strokeWidth="2"></line>
                     <circle cx="400" cy="50" r="10" fill="#F48118" /> 
                   </g>
                   : (state["confirmation_page"]) ?
@@ -136,7 +142,7 @@ const Header = ({ state, setState }) => {
                 {state["confirmation_page"] ? 
                   <g onClick={goToConfirmationPage}>
                     <text x="558" y="90">Confirmation</text>
-                    <line x1="200" y1="50" x2="600" y2="50" stroke="#F48118" stroke-width="2"></line>
+                    <line x1="200" y1="50" x2="600" y2="50" stroke="#F48118" strokeWidth="2"></line>
                     <circle cx="600" cy="50" r="10" fill="#F48118" /> 
                   </g>
                   : 
@@ -206,7 +212,7 @@ const StartPage = ({ state, setState, handleChange }) => {
           );
         case "radio":
           let radio = state[field] ? (
-            <div class="col-md-12 form-check pl-5 pt-3">
+            <div className="col-md-12 form-check pl-5 pt-3">
               <input
                 key={idx}
                 className={category + ' form-check-input'}
@@ -216,12 +222,12 @@ const StartPage = ({ state, setState, handleChange }) => {
                 onChange={handleChange}
                 checked
               />
-              <label htmlFor={SCHEMA[field].name} class="form-check-label pl-3">
+              <label htmlFor={SCHEMA[field].name} className="form-check-label pl-3">
               {SCHEMA[field].label}
               </label>
             </div>
             ) : (
-            <div class="col-md-12 form-check pl-5 pt-3">
+            <div className="col-md-12 form-check pl-5 pt-3">
               <input
                 key={idx}
                 className={category + ' form-check-input'}
@@ -230,7 +236,7 @@ const StartPage = ({ state, setState, handleChange }) => {
                 placeholder={SCHEMA[field].placeholder}
                 onChange={handleChange}
               />
-              <label htmlFor={SCHEMA[field].name} class="form-check-label pl-3">
+              <label htmlFor={SCHEMA[field].name} className="form-check-label pl-3">
                 {SCHEMA[field].label}
               </label>
             </div>
@@ -239,8 +245,8 @@ const StartPage = ({ state, setState, handleChange }) => {
         case "checkbox":
           // Return checkbox as checked if user has clicked it
           let checkbox = state[field] ? (
-            <div class="col-md-3">
-              <div class="form-check pb-3">
+            <div className="col-md-3">
+              <div className="form-check pb-3">
                 <input
                   key={idx}
                   className={category + ' ' + 'form-check-input'}
@@ -250,14 +256,14 @@ const StartPage = ({ state, setState, handleChange }) => {
                   onChange={handleChange}
                   checked
                 />
-                <label htmlFor={field} class="form-check-label pl-3">
+                <label htmlFor={field} className="form-check-label pl-3">
                   {SCHEMA[field].label}
                 </label>
               </div>
             </div>
             ) : (
-            <div class="col-md-3">
-              <div class="form-check pb-3">
+            <div className="col-md-3">
+              <div className="form-check pb-3">
                 <input
                   key={idx}
                   className={category + ' ' + 'form-check-input'}
@@ -266,7 +272,7 @@ const StartPage = ({ state, setState, handleChange }) => {
                   placeholder={SCHEMA[field].placeholder}
                   onChange={handleChange}
                 />
-                <label htmlFor={field} class="form-check-label pl-3">
+                <label htmlFor={field} className="form-check-label pl-3">
                   {SCHEMA[field].label}
                 </label>
               </div>
@@ -277,7 +283,7 @@ const StartPage = ({ state, setState, handleChange }) => {
           );
         case "textarea":
           return (
-            <div class="col-md-12">
+            <div className="col-md-12">
               <textarea 
                 className={"form-control w-100"}
                 rows="8"
@@ -292,10 +298,10 @@ const StartPage = ({ state, setState, handleChange }) => {
         case "text":
         default:
           return (
-            <div className={ 'pt-3' + ' ' + ('col-md-' + SCHEMA[field].columnSize) }>
+            <div className={`pt-3 col-md-${SCHEMA[field].columnSize}`}>
               <input
                 key={idx}
-                className={category, 'form-control'}
+                className={`${category} form-control ${state["validation"][field]}`}
                 type="text"
                 name={field}
                 value={state[field]}
@@ -428,12 +434,12 @@ const StartPage = ({ state, setState, handleChange }) => {
 
   return (
     <div id="start-page-container">
-
+      <form noValidate>
       <section id="general-information-container">
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2 text-center">General Information</h4>
+              <h4 className="font-weight-bold pb-2 text-center">General Information</h4>
               <p>
                 Please provide your current information so that we can contact you about your case.
               </p>
@@ -443,7 +449,7 @@ const StartPage = ({ state, setState, handleChange }) => {
             <div className="col-md-12">
 
               {/* General Information */}
-              <div class="row pt-1">
+              <div className="row pt-1">
                 {general_information_elements}
               </div>
 
@@ -456,7 +462,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Members of Household</h4>
+              <h4 className="font-weight-bold pb-2">Members of Household</h4>
               <p>
                 Please provide information about the members of your household.
               </p>
@@ -466,12 +472,12 @@ const StartPage = ({ state, setState, handleChange }) => {
             <div className="col-md-12">
 
               {/* Member of Household */}
-              <div class="row pt-1">
+              <div className="row pt-1">
                 { members_of_household_elements }
               </div>
 
               <br />
-              <button class="btn btn-primary" name="add_household_member" onClick={addHouseholdMember}>
+              <button className="btn btn-primary" name="add_household_member" onClick={addHouseholdMember}>
                 Add Another Member
               </button>
 
@@ -484,7 +490,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Additional Contact</h4>
+              <h4 className="font-weight-bold pb-2">Additional Contact</h4>
               <p>Please provide a contact if we are not able to reach you.</p>
             </div>
           </div>
@@ -518,7 +524,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Cash Grant Information</h4>
+              <h4 className="font-weight-bold pb-2">Cash Grant Information</h4>
               <p>
                 Please provide the information about the address where damage
                 occurred.
@@ -562,7 +568,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Notes</h4>
+              <h4 className="font-weight-bold pb-2">Notes</h4>
               <p>
                 Briefly describe how you were impacted by the wildfire. 
                 Was your primary residence destroyed or significantly damaged by the fire? To
@@ -588,7 +594,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Photo of ID</h4>
+              <h4 className="font-weight-bold pb-2">Photo of ID</h4>
             </div>
           </div>
           <div className="row">
@@ -612,7 +618,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Photo of Address Proof</h4>
+              <h4 className="font-weight-bold pb-2">Photo of Address Proof</h4>
             </div>
           </div>
           <div className="row">
@@ -636,7 +642,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Photos of Your Damaged House</h4>
+              <h4 className="font-weight-bold pb-2">Photos of Your Damaged House</h4>
             </div>
           </div>
           <div className="row">
@@ -660,7 +666,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Photos of Your Receipts</h4>
+              <h4 className="font-weight-bold pb-2">Photos of Your Receipts</h4>
             </div>
           </div>
           <div className="row">
@@ -684,7 +690,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Coordinated Assistance Network Consent and Release</h4>
+              <h4 className="font-weight-bold pb-2">Coordinated Assistance Network Consent and Release</h4>
             </div>
           </div>
           <div className="row">
@@ -708,7 +714,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Other Agencies You Work With</h4>
+              <h4 className="font-weight-bold pb-2">Other Agencies You Work With</h4>
             </div>
           </div>
           <div className="row">
@@ -728,7 +734,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Case Managers You Work With</h4>
+              <h4 className="font-weight-bold pb-2">Case Managers You Work With</h4>
             </div>
           </div>
           <div className="row">
@@ -740,7 +746,7 @@ const StartPage = ({ state, setState, handleChange }) => {
               </div>
 
               <br />
-              <button name="add_case_manager" class="btn btn-primary" onClick={addCaseManager}>
+              <button name="add_case_manager" className="btn btn-primary" onClick={addCaseManager}>
                 Add Case Manager
               </button>
 
@@ -753,7 +759,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Did You Apply For an SBA Loan?</h4>
+              <h4 className="font-weight-bold pb-2">Did You Apply For an SBA Loan?</h4>
             </div>
           </div>
           <div className="row">
@@ -773,7 +779,7 @@ const StartPage = ({ state, setState, handleChange }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Electronic Signature</h4>
+              <h4 className="font-weight-bold pb-2">Electronic Signature</h4>
               <p>
                 By entering my name, I understand this constitutes a legal signature
                 confirming that I acknowledge and agree that all information entered
@@ -802,7 +808,7 @@ const StartPage = ({ state, setState, handleChange }) => {
           </div>
         </div>
       </section>
-
+      </form>
     </div>
   );
 };
@@ -830,8 +836,8 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12 text-center">
-              <h4 class="font-weight-bold">Preview</h4>
-              <p class="pt-3">
+              <h4 className="font-weight-bold">Preview</h4>
+              <p className="pt-3">
                 This is a preview of the information you will be providing United Way of Northern California.
               </p>
               <p>
@@ -846,7 +852,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">General Information</h4>
+              <h4 className="font-weight-bold pb-2">General Information</h4>
               <p id="survivor-name-preview">
                 Name:{" " + state["survivor_first_name"] + " " + state["survivor_middle_name"] + " " + state["survivor_last_name"]}
               </p>
@@ -868,7 +874,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Members of Household</h4>
+              <h4 className="font-weight-bold pb-2">Members of Household</h4>
               <p id="members_of_household_preview"></p>
             </div>
           </div>
@@ -879,7 +885,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Additional Contact</h4>
+              <h4 className="font-weight-bold pb-2">Additional Contact</h4>
               <p id="additional_contact_preview">
                 <p id="additional_contact_name_preview">
                   Name:{" " + state["additional_contact_first_name"] + " " + state["additional_contact_middle_name"] + " " + state["additional_contact_last_name"]}
@@ -903,7 +909,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Cash Grant Information</h4>
+              <h4 className="font-weight-bold pb-2">Cash Grant Information</h4>
               <p id="fema_preview">
                 FEMA #: {" " + state["fema_number"]}
               </p>
@@ -922,7 +928,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Landlord Information</h4>
+              <h4 className="font-weight-bold pb-2">Landlord Information</h4>
               <p id="landlord_name_preview">
                 Name: {" " + state["landlord_first_name"] + " " + state["landlord_middle_name"] + " " + state["landlord_last_name"]}
               </p>
@@ -941,7 +947,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Notes</h4>
+              <h4 className="font-weight-bold pb-2">Notes</h4>
               <p id="notes_preview">
                 Notes: {" " + state["notes"]}
               </p>
@@ -954,7 +960,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Photo ID</h4>
+              <h4 className="font-weight-bold pb-2">Photo ID</h4>
               <p id="photo_id_preview"></p>
             </div>
           </div>
@@ -965,7 +971,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Address Proof</h4>
+              <h4 className="font-weight-bold pb-2">Address Proof</h4>
               <p id="address_proof_preview"></p>
             </div>
           </div>
@@ -976,7 +982,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Damaged House Photos</h4>
+              <h4 className="font-weight-bold pb-2">Damaged House Photos</h4>
               <p id="damaged_house_preview"></p>
             </div>
           </div>
@@ -987,7 +993,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Receipts</h4>
+              <h4 className="font-weight-bold pb-2">Receipts</h4>
               <p id="receipts_preview"></p>
             </div>
           </div>
@@ -998,7 +1004,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">CAN Consent and Release Form</h4>
+              <h4 className="font-weight-bold pb-2">CAN Consent and Release Form</h4>
               <p id="can_conset_release_preview"></p>
             </div>
           </div>
@@ -1009,7 +1015,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Agencies You Work With</h4>
+              <h4 className="font-weight-bold pb-2">Agencies You Work With</h4>
               <p id="agencies_preview"></p>
             </div>
           </div>
@@ -1020,7 +1026,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Case Managers</h4>
+              <h4 className="font-weight-bold pb-2">Case Managers</h4>
               <p id="case_managers_preview"></p>
             </div>
           </div>
@@ -1031,7 +1037,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">SBA Loan</h4>
+              <h4 className="font-weight-bold pb-2">SBA Loan</h4>
               <p id="sba_loan_preview"></p>
             </div>
           </div>
@@ -1042,7 +1048,7 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container mb-5">
           <div className="row">
             <div className="col-md-12">
-              <h4 class="font-weight-bold pb-2">Electronic Signature</h4>
+              <h4 className="font-weight-bold pb-2">Electronic Signature</h4>
               <p id="signature_preview">
                 {state["signature"]}
               </p>
@@ -1055,8 +1061,8 @@ const PreviewPage = ({ state, setState }) => {
         <div className="container pb-5 mb-5">
           <div className="row">
             <div className="col-md-12">
-              <button class="btn btn-secondary float-left" type="submit" onClick={goToStartPage}>Back</button>
-              <button class="btn btn-primary float-right"  type="submit" onClick={handleSubmit}>Submit</button>
+              <button className="btn btn-secondary float-left" type="submit" onClick={goToStartPage}>Back</button>
+              <button className="btn btn-primary float-right"  type="submit" onClick={handleSubmit}>Submit</button>
             </div>
           </div>
         </div>
@@ -1074,8 +1080,8 @@ const ConfirmationPage = () => {
         <div className="container pb-5 mb-5">
           <div className="row">
             <div className="col-md-12 text-center">
-              <h4 class="font-weight-bold">Confirmation Page</h4>
-              <p class="pt-5">
+              <h4 className="font-weight-bold">Confirmation Page</h4>
+              <p className="pt-5">
                 Your Application ID number <strong>CAMP002030</strong> was submitted.
               </p>
               <p>
@@ -1096,8 +1102,8 @@ const ConfirmationPage = () => {
                 Phone: (530) 241-7521 <br/>
                 Fax: (530) 241-2053
               </p>
-              <p class="pt-5">
-                <button class="btn btn-primary">Start a New Application</button>
+              <p className="pt-5">
+                <button className="btn btn-primary">Start a New Application</button>
               </p>
             </div>
           </div>
